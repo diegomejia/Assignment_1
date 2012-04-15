@@ -14,8 +14,10 @@
 		session.setAttribute("lastName", last);
 
 		support s = new support();
+		String countriesPath = config.getServletContext().getRealPath(
+				"countries.txt");
 		Vector countries = s
-				.getCountries("C:/Users/Dieg/workspace/Counter/WebContent/countries.txt");
+				.getCountries(countriesPath);
 	%>
 	<div>
 		<%="Hello " + first + " " + mi + " " + last%>
@@ -34,15 +36,13 @@
 			%>
 		</tr>
 		<tr>
-			<td><a
-				href="residence.jsp?country=<%=c%>"><%=c%></a></td>
+			<td><a href="residence.jsp?country=<%=c%>"><%=c%></a></td>
 			<%
 				} else {
 			%>
-			<td><a
-				href="residence.jsp?country=<%=c%>"><%=c%></a></td>
+			<td><a href="residence.jsp?country=<%=c%>"><%=c%></a></td>
 			<%
-					}
+				}
 				}
 			%>
 		</tr>
