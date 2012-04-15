@@ -7,6 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Address</title>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
 	<%
@@ -20,16 +22,27 @@
 
 		support s = new support();
 	%>
-	<div>
-		<%="Hello " + first + " " + mi + " " + last%>
+	<div id="colLeft">
+		<div id="currentApplicationState">
+			Your application so far
+			<div class="applicationField">
+				Name:
+				<%=first + " " + mi + " " + last%>
+			</div>
+			<div class="applicationField">
+				Citizenship:
+				<%= citizenship %>
+			</div>
+			<div class="applicationField">
+				Residence:
+				<%= residence %>
+			</div>
+		</div>
 	</div>
-	<div>
-    	WE KNOW WHERE YOU VOTE: <%=citizenship%>.
+    <div id="colRight">
+    <div class="instructions">
+    	Please enter your address information.
     </div>
-    <div>
-    	AND WE KNOW WHERE YOU LIVE: <%=residence%>, roughly.
-    </div>
-    
     <form method="post" action="chooseLocation.jsp">
     	<div>
     	<label for="address">Street Address</label>
@@ -71,6 +84,6 @@
     		<input type="submit" value="Submit" />
     	</div>
     </form>
-
+</div>
 </body>
 </html>

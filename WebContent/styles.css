@@ -1,7 +1,22 @@
+body{
+	font: 12px helvetica, arial, sans-serif;
+	display: block;
+}
+
 h1{
 	font: bold 16px helvetica, arial,sans-serif;
 }
 
 div.instructions{
 	font: 14px helvetica, arial,sans-serif;
+}
+
+div#colLeft{
+	float: left;
+	width: 25%;
+}
+
+div#colRight{
+	float: left;
+	width: 75%;
 }

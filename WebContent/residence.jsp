@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Country of Residence</title>
+<link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
  <%
@@ -20,15 +21,25 @@
        String countriesPath = config.getServletContext().getRealPath("countries.txt");
        Vector countries = s.getCountries(countriesPath);
     %>
-    <div>
-    	<%= "Hello " + first + " " + mi + " " + last  %>
-    </div>
-    <div>
-    	WE KNOW WHERE YOU VOTE: <%= country %>.
-    </div>
+    <div id="colLeft">
+		<div id="currentApplicationState">
+			Your application so far
+			<div class="applicationField">
+				Name:
+				<%=first + " " + mi + " " + last%>
+			</div>
+			<div class="applicationField">
+				Citizenship:
+				<%= country %>
+			</div>
+		</div>
+	</div>
+	<div id="colRight">
+	<div class="instructions">
+		Please select your current country of residence.<br />
+		If your country of residence is the same as your country of citizenship, <a href="address.jsp?residence=<%= country %>">click here.</a>
+	</div>
     <table border="1">
-    	<a href="address.jsp?residence=<%= country %>">Country of Residence the same as citizenship? Click here.</a>
-    	Otherwise, select from below:
     	<tr>
     		<th>Country</th>
     	</tr>
@@ -48,7 +59,7 @@
       		} %>
          </tr>
     </table>
-
+</div>
 
 </body>
 </html>
