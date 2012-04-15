@@ -3,6 +3,7 @@
 <html>
 <head>
 <title>Country of Citizenship</title>
+<link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<%
@@ -19,8 +20,13 @@
 		Vector countries = s
 				.getCountries(countriesPath);
 	%>
-	<div>
+	<div id="currentApplicationState">
 		<%="Hello " + first + " " + mi + " " + last%>
+	</div>
+	<div class="instructions">
+		Please select your country of
+		citizenship. If you have dual or multiple citizenships, please select
+		the country with which you most identify.
 	</div>
 	<table border="1">
 		<tr>
