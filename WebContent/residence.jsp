@@ -9,13 +9,16 @@
 </head>
 <body>
  <%
-       String first = request.getParameter("first");
-       String mi = request.getParameter("mi");
-       String last = request.getParameter("last");
+ 	
+       String first = (String) session.getAttribute("firstName");
+       String mi = (String) session.getAttribute("middleInitial");
+       String last = (String) session.getAttribute("lastName");
        String country = request.getParameter("country");
+       session.setAttribute("citizenship", country);
        
        support s = new support();
-       Vector countries = s.getCountries("C:/Users/Dieg/workspace/Counter/WebContent/countries.txt");
+       String countriesPath = config.getServletContext().getRealPath("countries.txt");
+       Vector countries = s.getCountries(countriesPath);
     %>
     <div>
     	<%= "Hello " + first + " " + mi + " " + last  %>
