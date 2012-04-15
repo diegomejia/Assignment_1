@@ -27,7 +27,7 @@
     	WE KNOW WHERE YOU VOTE: <%= country %>.
     </div>
     <table border="1">
-    	<a href="address.jsp?first=<%= first %>&mi=<%=mi %>&last=<%=last %>&country=<%= country %>&residence=<%= country %>">Country of Residence the same as citizenship? Click here.</a>
+    	<a href="address.jsp?residence=<%= country %>">Country of Residence the same as citizenship? Click here.</a>
     	Otherwise, select from below:
     	<tr>
     		<th>Country</th>
@@ -40,10 +40,10 @@
       			String c = (String)countries.get(i);
       			if(i%3 == 0){
       			%>
-      			</tr><tr><td><a href="address.jsp?first=<%= first %>&mi=<%=mi %>&last=<%=last %>&country=<%= country %>&residence=<%=c %>"><%= c %></a></td>
+      			</tr><tr><td><a href="address.jsp?residence=<%=c %>"><%= c %></a></td>
       		<%	} else {
       		%>
-      			<td><a href="address.jsp?first=<%= first %>&mi=<%=mi %>&last=<%=last %>&country=<%= country %>&residence=<%=c %>"><%= c %></a></td>
+      			<td><a href="address.jsp?residence=<%=c %>"><%= c %></a></td>
       		 <% }
       		} %>
          </tr>
