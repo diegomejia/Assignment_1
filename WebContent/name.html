@@ -1,13 +1,25 @@
 <html>
- <head><title>Multiplier Form</title></head>
- <body>
-  Welcome to the page that multiplies by 3 <p />
-  <form method="GET" action="citizenship.jsp">
-   Provide your name:
-   <INPUT type="text" name="first" text="First" />
-   <INPUT type="text" name="mi" text="Middle Initial" />
-   <INPUT type="text" name="last" text = "Last" /> <p />
-   <input type="submit" value="Click to Submit"/>
-  </form>
- </body>
+<head>
+<title>Graduate Application</title>
+</head>
+<body>
+	Welcome to the Graduate School Application
+	<form method="GET" action="citizenship.jsp">
+		<h1>Please provide your name</h1>
+		<div class="textInput">
+			<label for="first">First Name: </label> <INPUT type="text"
+				name="first" value="First Name" />
+		</div>
+		<div class="textInput">
+			<label for="mi">Middle Initial: </label> <INPUT type="text" name="mi"
+				value="Middle Initial" size="1" maxlength="1" />
+		</div>
+		<div class="textInput">
+			<label for="last">Last Name: </label>
+			<INPUT type="text" name="last" text="Last" />
+		</div>
+		<input type="submit" value="Submit" />
+	</form>
+	
+</body>
 </html>
