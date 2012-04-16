@@ -27,11 +27,17 @@
 		<tr>
 			<%
 				//Prints all the countries.
+				int p = 0;
 				for (int i = 0; i < countries.size(); i++) {
 					//each entry in the universities vector is a tuple with the first entry being the country/state
 					//and the second entry being a vector of the universities as String's
 					String c = (String) countries.get(i);
-					if (i % 3 == 0) {
+					p++;
+					if (countries.get(i).toString().equals("United States")){
+						p--;
+						continue;
+					}
+					if (p % 3 == 0) {
 			%>
 		</tr>
 		<tr>
@@ -47,9 +53,6 @@
 		</tr>
 	</table>
 
-	<br>Number of states/countries with universities:
-	<%=universities.size()%><br>
-	
 	<table border="1">
 		<tr>
 			<th>States</th>
