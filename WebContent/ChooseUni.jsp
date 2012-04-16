@@ -10,8 +10,6 @@
 
 </head>
 <body>
-
-
 	<%
 		String first = (String) session.getAttribute("firstName");
 		String mi = (String) session.getAttribute("middleInitial");
