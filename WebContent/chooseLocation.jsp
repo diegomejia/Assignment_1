@@ -105,11 +105,11 @@
 			%>
 		</tr>
 		<tr>
-			<td><a href="residence.jsp?univCountry=<%=c%>"><%=c%></a></td>
+			<td><a href="chooseUni.jsp?location=<%=c%>"><%=c%></a></td>
 			<%
 				} else {
 			%>
-			<td><a href="residence.jsp?univCountry=<%=c%>"><%=c%></a></td>
+			<td><a href="chooseUni.jsp?location=<%=c%>"><%=c%></a></td>
 			<%
 				}
 				}
@@ -134,11 +134,11 @@
 			%>
 		</tr>
 		<tr>
-			<td><a href="chooseUni.jsp?univState=<%=s%>"><%=s%></a></td>
+			<td><a href="chooseUni.jsp?location=<%=s%>"><%=s%></a></td>
 			<%
 				} else {
 			%>
-			<td><a href="chooseUni.jsp?univState=<%=s%>"><%=s%></a></td>
+			<td><a href="chooseUni.jsp?location=<%=s%>"><%=s%></a></td>
 			<%
 				}
 				}

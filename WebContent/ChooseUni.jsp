@@ -15,12 +15,12 @@
     //getUniversities returns a vector of vectors where each vector is a tuple of <string, vector>
     //with the string being the name of the country/state and the vector being the list of universities there
     Vector universities = sup.getUniversities(path2);
-    String state = (String) session.getAttribute("state");
+    String location = (String) session.getAttribute("location");
     
   	//each entry in the universities vector is a tuple with the first entry being the country/state
     //and the second entry being a vector of the universities as String's
     Vector tuple = (Vector)universities.get(0);
-    int indexOfState = tuple.indexOf(state);
+    int indexOfState = tuple.indexOf(location);
     out.println("<br>"+indexOfState+"<br>");    
           Vector u = (Vector)tuple.get(1);
           for(int j=0; j<u.size(); j++){ %>
