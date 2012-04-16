@@ -6,9 +6,32 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Provide Degrees - Choose Location</title>
+<link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<% 
+	
+	String first = (String) session.getAttribute("firstName");
+	String mi = (String) session.getAttribute("middleInitial");
+	String last = (String) session.getAttribute("lastName");
+	String citizenship = (String) session.getAttribute("citizenship");
+	String residence = (String) session.getAttribute("residence");
+	
+	String streetAddress = request.getParameter("address");
+	session.setAttribute("streetAddress", streetAddress);
+	String city =  request.getParameter("city");
+	session.setAttribute("city", city);
+	String state =  request.getParameter("state");
+	session.setAttribute("state", state);
+	String zipCode =  request.getParameter("zip");
+	session.setAttribute("zipCode", zipCode);
+	String countryCode =  request.getParameter("countryCode");
+	session.setAttribute("countryCode", countryCode);
+	String areaCode =  request.getParameter("areaCode");
+	session.setAttribute("areaCode", areaCode);
+	String phoneNumber =  request.getParameter("number");
+	session.setAttribute("phoneNumber", phoneNumber);
+	
    	support sup = new support();   	
    	
    	String path1 = config.getServletContext().getRealPath("countries.txt");
@@ -20,7 +43,48 @@
     //with the string being the name of the country/state and the vector being the list of universities there
     Vector universities = sup.getUniversities(path2);
 	%>
-	<table border="1">
+	<div id="colLeft">
+		<div id="currentApplicationState">
+			Your application so far
+			<div class="applicationField">
+				Name:
+				<%=first + " " + mi + " " + last%>
+			</div>
+			<div class="applicationField">
+				Citizenship:
+				<%= citizenship %>
+			</div>
+			<div class="applicationField">
+				Residence:
+				<%= residence %>
+			</div>
+			<div class="applicationField">
+				Street Address:
+				<%= streetAddress %>
+			</div>
+			<div class="applicationField">
+				City:
+				<%= city %>
+			</div>
+			<div class="applicationField">
+				State:
+				<%= state %>
+			</div>
+			<div class="applicationField">
+				Zip Code:
+				<%= zipCode %>
+			</div>
+			<div class="applicationField">
+				Phone Number:
+				<%= "+" + countryCode + "-" + areaCode + "-" + phoneNumber %>
+			</div>
+		</div>
+	</div>
+	<div id="colRight">
+	<div class="instructions">
+		Please select the <a href="#countries">country</a> or <a href="#states">state within the United States</a> in which you have earned a degree.
+	</div>
+	<table border="1" id="countries">
 		<tr>
 			<th>Country</th>
 		</tr>
@@ -41,11 +105,11 @@
 			%>
 		</tr>
 		<tr>
-			<td><a href="residence.jsp?country=<%=c%>"><%=c%></a></td>
+			<td><a href="residence.jsp?univCountry=<%=c%>"><%=c%></a></td>
 			<%
 				} else {
 			%>
-			<td><a href="residence.jsp?country=<%=c%>"><%=c%></a></td>
+			<td><a href="residence.jsp?univCountry=<%=c%>"><%=c%></a></td>
 			<%
 				}
 				}
@@ -53,7 +117,8 @@
 		</tr>
 	</table>
 
-	<table border="1">
+	
+	<table border="1" id="states">
 		<tr>
 			<th>States</th>
 		</tr>
@@ -64,16 +129,16 @@
 					//each entry in the universities vector is a tuple with the first entry being the country/state
 					//and the second entry being a vector of the universities as String's
 				      Vector tuple = (Vector)universities.get(i);
-				      String state = (String)tuple.get(0);
+				      String s = (String)tuple.get(0);
 					if (i % 3 == 0) {
 			%>
 		</tr>
 		<tr>
-			<td><a href="chooseUni.jsp?state=<%=state%>"><%=state%></a></td>
+			<td><a href="chooseUni.jsp?univState=<%=s%>"><%=s%></a></td>
 			<%
 				} else {
 			%>
-			<td><a href="chooseUni.jsp?state=<%=state%>"><%=state%></a></td>
+			<td><a href="chooseUni.jsp?univState=<%=s%>"><%=s%></a></td>
 			<%
 				}
 				}
@@ -92,5 +157,6 @@
     } 
     */
 %>
+</div>
 </body>
 </html>
