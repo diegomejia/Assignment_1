@@ -8,8 +8,6 @@
 <title>Provide Degree - Choose University</title>
 </head>
 <body>
-
-
   <% 
   	String location = (String) request.getParameter("location");
   	session.setAttribute("univLocation", location);
