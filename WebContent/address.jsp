@@ -79,7 +79,7 @@
     	%>
 			<span>
 				<label for="areacode">Area Code</label> <input size="4"
-					maxlength="4" type="text" name="areacode" /> <label for="number">Number</label>
+					maxlength="4" type="text" name="areaCode" /> <label for="number">Number</label>
 				<input size="7" maxlength="7" type="text" name="number" />
 			</span>
 			<div>
