@@ -16,6 +16,9 @@
        String last = (String) session.getAttribute("lastName");
        String country = request.getParameter("country");
        session.setAttribute("citizenship", country);
+       if(country=="United States"){
+    	   session.setAttribute("domestic", true);
+       }
        
        support s = new support();
        String countriesPath = config.getServletContext().getRealPath("countries.txt");

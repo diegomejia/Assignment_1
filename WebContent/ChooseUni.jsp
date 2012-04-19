@@ -11,6 +11,7 @@
 </head>
 <body>
 	<%
+		Integer degreeIndex = (Integer) session.getAttribute("degreeIndex");
 		String first = (String) session.getAttribute("firstName");
 		String mi = (String) session.getAttribute("middleInitial");
 		String last = (String) session.getAttribute("lastName");
@@ -24,8 +25,10 @@
 		String areaCode = (String) session.getAttribute("areaCode");
 		String phoneNumber = (String) session.getAttribute("number");
 
+		Vector<HashMap<String,String>> degrees = (Vector<HashMap<String, String>>) session.getAttribute("degrees");
 		String location = (String) request.getParameter("location");
-		session.setAttribute("universityLocation", location);
+		degrees.get(degreeIndex).put("universityLocation", location);
+		session.setAttribute("degrees", degrees);
 
 		support s = new support();
 		String path2 = config.getServletContext().getRealPath(
@@ -62,6 +65,11 @@
 				Residence:
 				<%=residence%>
 			</div>
+			<%if(((Boolean) session.getAttribute("domestic")) == true){%>
+				<div class="applicationField">
+					Domestic Applicant
+				</div>
+			<% } %>
 			<div class="applicationField">
 				Street Address:
 				<%=streetAddress%>
@@ -86,6 +94,51 @@
 				University Location:
 				<%=location%>
 			</div>
+			
+			<%
+				for(int i =0; i<degrees.size()-1;i++){
+					
+					String univLocation = degrees.get(i).get("universityLocation");
+				  	String univName = degrees.get(i).get("universityName");
+				  	String disciplineName = degrees.get(i).get("disciplineName");
+					String degreeMonth = degrees.get(i).get("month");
+					String degreeYear = degrees.get(i).get("year");
+					String degreeGPA = degrees.get(i).get("gpa");
+					String degreeType = degrees.get(i).get("degreeType");
+					%>
+			<div class="degree">
+				<div class="applicationField">
+					University Location:
+					<%=univLocation%>
+				</div>
+				<div class="applicationField">
+					University Name:
+					<%=univName%>
+				</div>
+				<div class="applicationField">
+					Discipline Name:
+					<%=disciplineName%>
+				</div>
+				<div class="applicationField">
+					Degree Month:
+					<%=degreeMonth%>
+				</div>
+				<div class="applicationField">
+					Degree Year:
+					<%=degreeYear%>
+				</div>
+				<div class="applicationField">
+					Degree GPA:
+					<%=degreeGPA%>
+				</div>
+				<div class="applicationField">
+					Degree Type:
+					<%=degreeType%>
+				</div>
+			</div>
+					<%					
+				}
+			%>
 		</div>
 	</div>
 	<div id="colRight">

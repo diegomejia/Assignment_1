@@ -20,3 +20,7 @@ div#colRight{
 	float: left;
 	width: 75%;
 }
+
+div.degree{
+	margin-top: 20px;
+}
