@@ -1,4 +1,6 @@
-<%@page import="support.*, java.util.*"%>
+<%@ page import="support.*, java.util.*"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="org.postgresql.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -37,6 +39,51 @@
 	String univName = (String) request.getParameter("universityName");
 	degrees.get(degreeIndex).put("universityName", univName);
 	session.setAttribute("degrees", degrees);
+	
+	//Insert new university name into database
+	Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    
+    try {
+        // Registering Postgresql JDBC driver with the DriverManager
+        Class.forName("org.postgresql.Driver");
+
+        // Open a connection to the database using DriverManager
+        conn = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/postgres?" +
+            "user=postgres&password=dev");
+        
+        pstmt = conn.prepareStatement(
+        		"SELECT * "+
+        		"FROM universities "+
+        		"WHERE university=?"
+        		);
+        pstmt.setString(1, univName);
+        rs = pstmt.executeQuery();
+        
+        if(!rs.first()){
+        	pstmt = conn.prepareStatement(
+            		"INSERT INTO universities "+
+            		"('university', 'country_state')"+
+            		"values('?','?')"
+            		);
+        	pstmt.setString(1, univName);
+        	pstmt.setString(2, univLocation);
+            rs = pstmt.executeQuery();
+        }
+        
+        rs.close();
+        
+        pstmt.close();
+        
+        // Close the Connection
+        conn.close();
+    }
+    catch(SQLException e){
+    	
+    }
+	
   	
    	support s = new support();   	
 	
