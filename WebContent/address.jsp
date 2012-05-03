@@ -17,9 +17,22 @@
 		String citizenship = (String) session.getAttribute("citizenship");
 		String residence = request.getParameter("residence");
 		session.setAttribute("residence", residence);
-		if(residence=="United States"){
-	    	session.setAttribute("domestic", true);
-	    }
+		if (session.getAttribute("domestic") != null) {
+			if (residence.equals("United States") || citizenship.equals("United States")) {
+				session.setAttribute("domestic", true);
+			}
+			else{
+				session.setAttribute("domestic", false);
+			}
+		}
+		else{
+			if (residence.equals("United States")) {
+				session.setAttribute("domestic", true);
+			}
+			else{
+				session.setAttribute("domestic", false);
+			}
+		}
 		
 
 		support s = new support();

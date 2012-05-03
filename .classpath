@@ -17,5 +17,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="WebContent/support.jsp"/>
 	<classpathentry kind="lib" path="WebContent/META-INF/context.xml"/>
+	<classpathentry kind="lib" path="C:/Users/0x4655/postgresql-9.1-902.jdbc4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

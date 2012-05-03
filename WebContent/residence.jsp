@@ -16,8 +16,11 @@
        String last = (String) session.getAttribute("lastName");
        String country = request.getParameter("country");
        session.setAttribute("citizenship", country);
-       if(country=="United States"){
+       if(country.equals("United States")){
     	   session.setAttribute("domestic", true);
+       }
+       else{
+    	   session.setAttribute("domestic", false);
        }
        
        support s = new support();

@@ -61,7 +61,7 @@
 				Residence:
 				<%=residence%>
 			</div>
-			<%if(((Boolean) session.getAttribute("domestic")) == true){%>
+			<%if(((Boolean) session.getAttribute("domestic"))){%>
 				<div class="applicationField">
 					Domestic Applicant
 				</div>
