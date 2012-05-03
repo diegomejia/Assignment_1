@@ -29,7 +29,7 @@
 		String areaCode;
 		String phoneNumber;
 
-		if (loopFlag) {
+		if (!loopFlag) {
 			streetAddress = request.getParameter("address");
 			session.setAttribute("streetAddress", streetAddress);
 			city = request.getParameter("city");
