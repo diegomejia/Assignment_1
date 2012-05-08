@@ -32,6 +32,7 @@
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
 	    Vector<String> majors = new Vector<String>();
+	    Integer application_id = null;
 	    try{
 	        // Registering Postgresql JDBC driver with the DriverManager
 	        Class.forName("org.postgresql.Driver");
@@ -79,7 +80,7 @@
 	        
 	       	pstmt = conn.prepareStatement(
 	           		"INSERT INTO applications "+
-	       			"(first_name, middle_name, last_name, domestic, address, city, state, zipcode, country_code, area_code, phone_number, citizenship_id, residence_id, specialization_id) "+
+	       			"(first_name, middle_name, last_name, domestic, address, city, us_state, zipcode, country_code, area_code, phone_number, citizenship_id, residence_id, specialization_id) "+
 	           		"VALUES "+
 	       			"(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 	           		);
@@ -97,7 +98,61 @@
 	        pstmt.setInt(12, citizenship_id);
 	        pstmt.setInt(13, residence_id);
 	        pstmt.setInt(14, specialization_id);
-
+	        
+	        pstmt.executeUpdate();
+	        
+	        pstmt = conn.prepareStatement(
+	        		"SELECT currval('applications_id_seq')"        		
+   	       			);
+	        rs = pstmt.executeQuery();
+	        rs.next();
+	        application_id = rs.getInt("currval");
+	        
+	        int university_id; 
+	        int major_id;
+	        
+	        for(int i = 0; i<degrees.size(); i++){
+	        	HashMap<String, String> degree = degrees.get(i);
+	        	
+	        	pstmt = conn.prepareStatement(
+	        			"SELECT u_id "+
+       	        		"FROM universities "+
+       	        		"WHERE university=?"+
+       	        		"AND country_state=?"
+	        	        );
+	        	pstmt.setString(1, degree.get("universityName"));
+	        	pstmt.setString(2, degree.get("universityLocation"));
+	        	rs = pstmt.executeQuery();
+		        rs.next();
+		       	university_id = rs.getInt("u_id");
+		        
+		        pstmt = conn.prepareStatement(
+	        			"SELECT m_id "+
+       	        		"FROM majors "+
+       	        		"WHERE major=?"
+	        	        );
+	        	pstmt.setString(1, degree.get("disciplineName"));
+	        	rs = pstmt.executeQuery();
+		        rs.next();
+		        major_id = rs.getInt("m_id");
+	        	
+	        	pstmt = conn.prepareStatement(
+	        			"INSERT INTO degrees "+
+       	       			"(application_id, university_id, major_id, degree_type, gpa, grad_month, grad_year) "+
+       	           		"VALUES "+
+       	       			"(?, ?, ?, ?, ?, ?, ?)"
+	        			);
+	        	pstmt.setInt(1, application_id);
+		        pstmt.setInt(2, university_id);
+		        pstmt.setInt(3, major_id);
+		        pstmt.setString(4, degree.get("degreeType"));
+		        pstmt.setString(5, degree.get("degreeGPA"));
+		        pstmt.setString(6, degree.get("degreeMonth"));
+		        pstmt.setString(7, degree.get("degreeYear"));
+		        pstmt.executeUpdate();
+	        	
+	        }
+	        
 	        conn.commit();
 	        conn.setAutoCommit(true);
 	        
@@ -107,7 +162,7 @@
 	        
 	        // Close the Connection
 	        conn.close();
-	    }
+	     }
 	    catch(SQLException e){
 	    	throw new RuntimeException(e);
 	    }
@@ -136,6 +191,8 @@
 	    }
 
 	%>
+	<h1>Congratulations!</h1>
+	<h2>Your application id is: <%= application_id %></h2>
 
 </body>
 </html>

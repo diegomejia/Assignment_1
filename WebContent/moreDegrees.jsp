@@ -42,7 +42,7 @@
 	degrees.get(degreeIndex).put("degreeType", degreeType);
 	
 	
-	//Insert new university name into database
+	//Insert new major name into database
 		Connection conn = null;
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
@@ -54,6 +54,8 @@
 	        conn = DriverManager.getConnection(
 	            "jdbc:postgresql://localhost:5432/postgres?" +
 	            "user=postgres&password=dev");
+	        
+	        conn.setAutoCommit(false);
 	        
 	       	pstmt = conn.prepareStatement(
 	           		"INSERT INTO majors "+
@@ -67,12 +69,14 @@
 	        }
 	                
 	        pstmt.close();
+	        conn.commit();
+	        conn.setAutoCommit(true);
 	        
 	        // Close the Connection
 	        conn.close();
 	    }
 	    catch(SQLException e){
-	    	throw new RuntimeException(e);
+	    	//throw new RuntimeException(e);
 	    }
 	    finally {
 	        // Release resources in a finally block in reverse-order of
@@ -175,9 +179,9 @@
 					String oldUnivLocation = degrees.get(i).get("universityLocation");
 				  	String oldUnivName = degrees.get(i).get("universityName");
 				  	String oldDisciplineName = degrees.get(i).get("disciplineName");
-					String oldDegreeMonth = degrees.get(i).get("month");
-					String oldDegreeYear = degrees.get(i).get("year");
-					String oldDegreeGPA = degrees.get(i).get("gpa");
+					String oldDegreeMonth = degrees.get(i).get("degreeMonth");
+					String oldDegreeYear = degrees.get(i).get("degreeYear");
+					String oldDegreeGPA = degrees.get(i).get("degreeGPA");
 					String oldDegreeType = degrees.get(i).get("degreeType");
 					%>
 			<div class="degree">

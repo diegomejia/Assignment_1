@@ -53,17 +53,7 @@
             "jdbc:postgresql://localhost:5432/postgres?" +
             "user=postgres&password=dev");
         
-       	pstmt = conn.prepareStatement(
-           		"INSERT INTO universities "+
-           		"(university, country_state) "+
-           		"values (?,?)"
-           		);
-       	pstmt.setString(1, univName);
-       	pstmt.setString(2, univLocation);
-        int rowsEffected = pstmt.executeUpdate();
-        if(rowsEffected < 1){
-        	throw new RuntimeException("No rows effected by insert");
-        }
+        conn.setAutoCommit(false);
         
         pstmt = conn.prepareStatement(
            		"SELECT * "+
@@ -75,14 +65,29 @@
        		String major = rs.getString("major");
        		majors.addElement(major);
        	}
+        
+       	pstmt = conn.prepareStatement(
+           		"INSERT INTO universities "+
+           		"(university, country_state) "+
+           		"values (?,?)"
+           		);
+       	pstmt.setString(1, univName);
+       	pstmt.setString(2, univLocation);
+        int rowsEffected = pstmt.executeUpdate();
+        if(rowsEffected < 1){
+        	throw new RuntimeException("No rows effected by insert");
+        }
                 
         pstmt.close();
+        conn.commit();
+        conn.setAutoCommit(true);
+
         
         // Close the Connection
         conn.close();
     }
     catch(SQLException e){
-    	throw new RuntimeException(e);
+    	//throw new RuntimeException(e);
     }
     finally {
         // Release resources in a finally block in reverse-order of
@@ -171,9 +176,9 @@
 					String oldUnivLocation = degrees.get(i).get("universityLocation");
 				  	String oldUnivName = degrees.get(i).get("universityName");
 				  	String disciplineName = degrees.get(i).get("disciplineName");
-					String degreeMonth = degrees.get(i).get("month");
-					String degreeYear = degrees.get(i).get("year");
-					String degreeGPA = degrees.get(i).get("gpa");
+					String degreeMonth = degrees.get(i).get("degreeMonth");
+					String degreeYear = degrees.get(i).get("degreeYear");
+					String degreeGPA = degrees.get(i).get("degreeGPA");
 					String degreeType = degrees.get(i).get("degreeType");
 					%>
 			<div class="degree">

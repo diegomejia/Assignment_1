@@ -31,7 +31,7 @@
 
 		if (!loopFlag) {
 			streetAddress = request.getParameter("address");
-			session.setAttribute("streetAddress", streetAddress);
+			session.setAttribute("address", streetAddress);
 			city = request.getParameter("city");
 			session.setAttribute("city", city);
 			state = request.getParameter("state");
@@ -43,7 +43,7 @@
 			areaCode = request.getParameter("areaCode");
 			session.setAttribute("areaCode", areaCode);
 			phoneNumber = request.getParameter("number");
-			session.setAttribute("phoneNumber", phoneNumber);
+			session.setAttribute("number", phoneNumber);
 		} else {
 			streetAddress = (String) session.getAttribute("address");
 			city = (String) session.getAttribute("city");
@@ -135,11 +135,11 @@
 							for (int i = 0; i < degrees.size() - 1; i++) {
 
 								String univLocation = degrees.get(i).get("universityLocation");
-								String univName = degrees.get(i).get("universityName");
-								String disciplineName = degrees.get(i).get("disciplineName");
-								String degreeMonth = degrees.get(i).get("month");
-								String degreeYear = degrees.get(i).get("year");
-								String degreeGPA = degrees.get(i).get("gpa");
+							  	String univName = degrees.get(i).get("universityName");
+							  	String disciplineName = degrees.get(i).get("disciplineName");
+								String degreeMonth = degrees.get(i).get("degreeMonth");
+								String degreeYear = degrees.get(i).get("degreeYear");
+								String degreeGPA = degrees.get(i).get("degreeGPA");
 								String degreeType = degrees.get(i).get("degreeType");
 						%>
 			<div class="degree">

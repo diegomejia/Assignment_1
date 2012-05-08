@@ -78,9 +78,9 @@
 					String oldUnivLocation = degrees.get(i).get("universityLocation");
 				  	String oldUnivName = degrees.get(i).get("universityName");
 				  	String oldDisciplineName = degrees.get(i).get("disciplineName");
-					String oldDegreeMonth = degrees.get(i).get("month");
-					String oldDegreeYear = degrees.get(i).get("year");
-					String oldDegreeGPA = degrees.get(i).get("gpa");
+					String oldDegreeMonth = degrees.get(i).get("degreeMonth");
+					String oldDegreeYear = degrees.get(i).get("degreeYear");
+					String oldDegreeGPA = degrees.get(i).get("degreeGPA");
 					String oldDegreeType = degrees.get(i).get("degreeType");
 					%>
 			<div class="degree">

@@ -166,9 +166,9 @@
 					String univLocation = degrees.get(i).get("universityLocation");
 				  	String univName = degrees.get(i).get("universityName");
 				  	String disciplineName = degrees.get(i).get("disciplineName");
-					String degreeMonth = degrees.get(i).get("month");
-					String degreeYear = degrees.get(i).get("year");
-					String degreeGPA = degrees.get(i).get("gpa");
+					String degreeMonth = degrees.get(i).get("degreeMonth");
+					String degreeYear = degrees.get(i).get("degreeYear");
+					String degreeGPA = degrees.get(i).get("degreeGPA");
 					String degreeType = degrees.get(i).get("degreeType");
 					%>
 			<div class="degree">
