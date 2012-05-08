@@ -1,4 +1,5 @@
-<%@page import="support.*, java.util.*"%>
+<%@ page import="support.*, java.util.*, org.postgresql.*"%>
+<%@ page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -39,6 +40,64 @@
 	degrees.get(degreeIndex).put("degreeGPA", degreeGPA);
 	String degreeType = request.getParameter("degreeType");
 	degrees.get(degreeIndex).put("degreeType", degreeType);
+	
+	
+	//Insert new university name into database
+		Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try{
+	        // Registering Postgresql JDBC driver with the DriverManager
+	        Class.forName("org.postgresql.Driver");
+
+	        // Open a connection to the database using DriverManager
+	        conn = DriverManager.getConnection(
+	            "jdbc:postgresql://localhost:5432/postgres?" +
+	            "user=postgres&password=dev");
+	        
+	       	pstmt = conn.prepareStatement(
+	           		"INSERT INTO majors "+
+	           		"(major) "+
+	           		"values (?)"
+	           		);
+	       	pstmt.setString(1, disciplineName);
+	        int rowsEffected = pstmt.executeUpdate();
+	        if(rowsEffected < 1){
+	        	throw new RuntimeException("No rows effected by insert");
+	        }
+	                
+	        pstmt.close();
+	        
+	        // Close the Connection
+	        conn.close();
+	    }
+	    catch(SQLException e){
+	    	throw new RuntimeException(e);
+	    }
+	    finally {
+	        // Release resources in a finally block in reverse-order of
+	        // their creation
+
+	        if (rs != null) {
+	            try {
+	                rs.close();
+	            } catch (SQLException e) { } // Ignore
+	            rs = null;
+	        }
+	        if (pstmt != null) {
+	            try {
+	                pstmt.close();
+	            } catch (SQLException e) { } // Ignore
+	            pstmt = null;
+	        }
+	        if (conn != null) {
+	            try {
+	                conn.close();
+	            } catch (SQLException e) { } // Ignore
+	            conn = null;
+	        }
+	    }
+	  	
 
 	session.setAttribute("degrees", degrees);
   	session.setAttribute("loopFlag", true);  	

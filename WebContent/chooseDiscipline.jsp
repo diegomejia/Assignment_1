@@ -1,6 +1,5 @@
-<%@ page import="support.*, java.util.*"%>
+<%@ page import="support.*, java.util.*, org.postgresql.*"%>
 <%@ page import="java.sql.*"%>
-<%@ page import="org.postgresql.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -44,8 +43,8 @@
 	Connection conn = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
-    
-    try {
+    Vector<String> majors = new Vector<String>();
+    try{
         // Registering Postgresql JDBC driver with the DriverManager
         Class.forName("org.postgresql.Driver");
 
@@ -54,36 +53,60 @@
             "jdbc:postgresql://localhost:5432/postgres?" +
             "user=postgres&password=dev");
         
-        pstmt = conn.prepareStatement(
-        		"SELECT * "+
-        		"FROM universities "+
-        		"WHERE university=?"
-        		);
-        pstmt.setString(1, univName);
-        rs = pstmt.executeQuery();
-        
-        if(!rs.first()){
-        	pstmt = conn.prepareStatement(
-            		"INSERT INTO universities "+
-            		"('university', 'country_state')"+
-            		"values('?','?')"
-            		);
-        	pstmt.setString(1, univName);
-        	pstmt.setString(2, univLocation);
-            rs = pstmt.executeQuery();
+       	pstmt = conn.prepareStatement(
+           		"INSERT INTO universities "+
+           		"(university, country_state) "+
+           		"values (?,?)"
+           		);
+       	pstmt.setString(1, univName);
+       	pstmt.setString(2, univLocation);
+        int rowsEffected = pstmt.executeUpdate();
+        if(rowsEffected < 1){
+        	throw new RuntimeException("No rows effected by insert");
         }
         
-        rs.close();
+        pstmt = conn.prepareStatement(
+           		"SELECT * "+
+           		"FROM majors"
+           		);
+        rs = pstmt.executeQuery();
         
+        while(rs.next()){
+       		String major = rs.getString("major");
+       		majors.addElement(major);
+       	}
+                
         pstmt.close();
         
         // Close the Connection
         conn.close();
     }
     catch(SQLException e){
-    	
+    	throw new RuntimeException(e);
     }
-	
+    finally {
+        // Release resources in a finally block in reverse-order of
+        // their creation
+
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) { } // Ignore
+            rs = null;
+        }
+        if (pstmt != null) {
+            try {
+                pstmt.close();
+            } catch (SQLException e) { } // Ignore
+            pstmt = null;
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) { } // Ignore
+            conn = null;
+        }
+    }
   	
    	support s = new support();   	
 	
@@ -91,7 +114,7 @@
 
    	
   	//getMajors and getSpecializations return vectors
-    Vector majors = s.getMajors(path3);%>
+    //Vector majors = s.getMajors(path3);%>
     
     <div id="colLeft">
 		<div id="currentApplicationState">

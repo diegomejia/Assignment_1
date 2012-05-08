@@ -1,4 +1,6 @@
-<%@page import="support.*,java.util.*, java.net.URLEncoder"%>
+<%@ page import="support.*, java.util.*, org.postgresql.*"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -30,6 +32,69 @@
 		degrees.get(degreeIndex).put("universityLocation", location);
 		session.setAttribute("degrees", degrees);
 
+		
+		//Insert new university name into database
+		Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+        Vector<String> u = new Vector<String>(); 
+	    try{
+	        // Registering Postgresql JDBC driver with the DriverManager
+	        Class.forName("org.postgresql.Driver");
+
+	        // Open a connection to the database using DriverManager
+	        conn = DriverManager.getConnection(
+	            "jdbc:postgresql://localhost:5432/postgres?" +
+	            "user=postgres&password=dev");
+	        
+	       	pstmt = conn.prepareStatement(
+	           		"SELECT * "+
+	           		"FROM universities "+
+	           		"WHERE country_state=?"
+	           		);
+	       	pstmt.setString(1, location);
+	        rs = pstmt.executeQuery();
+	        	        
+	       	while(rs.next()){
+	       		String uName = rs.getString("university");
+	       		u.addElement(uName);
+	       	}
+	        
+	        rs.close();
+	                
+	        pstmt.close();
+	        
+	        // Close the Connection
+	        conn.close();
+	    }
+	    catch(SQLException e){
+	    	throw new RuntimeException(e);
+	    }
+	    finally {
+	        // Release resources in a finally block in reverse-order of
+	        // their creation
+
+	        if (rs != null) {
+	            try {
+	                rs.close();
+	            } catch (SQLException e) { } // Ignore
+	            rs = null;
+	        }
+	        if (pstmt != null) {
+	            try {
+	                pstmt.close();
+	            } catch (SQLException e) { } // Ignore
+	            pstmt = null;
+	        }
+	        if (conn != null) {
+	            try {
+	                conn.close();
+	            } catch (SQLException e) { } // Ignore
+	            conn = null;
+	        }
+	    }
+		
+		
 		support s = new support();
 		String path2 = config.getServletContext().getRealPath(
 				"universities.txt");
@@ -37,7 +102,7 @@
 		//getUniversities returns a vector of vectors where each vector is a tuple of <string, vector>
 		//with the string being the name of the country-state and the vector being the list of universities there
 		Vector universities = s.getUniversities(path2);
-		Vector u = null;
+		Vector uV = null;
 		for (int i = 0; i < universities.size(); i++) {
 			//each entry in the universities vector is a tuple with the first entry being the country/state
 			//and the second entry being a vector of the universities as String's
@@ -45,7 +110,7 @@
 			String univState = (String) tuple.get(0);
 			//out.println("<br>"+tuple.get(1)+"<br>");    
 			if (univState.equals(location)) {
-				u = (Vector) tuple.get(1);
+				uV = (Vector) tuple.get(1);
 				break;
 			}
 		}
